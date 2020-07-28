@@ -31,14 +31,13 @@ jobs:
            docker rmi `docker images -q`
        - name: Cloning 
          run: |
-            git clone --recurse-submodules 
-            sudo chmod -R 777 
+            git clone --recurse-submodules  https://github.com/Ayush-Walia/lenovo_z5_dump.git
+            sudo chmod -R 777 lenovo_z5_dump
             curl -sL https://git.io/file-transfer | sh
              
        
        - name: up
          run: |
-           ls /home/runner/work/actions_build_ErfanGSIs/actions_build_ErfanGSIs/ErfanGSIs/output/
-           7z a -r dl.7z .
+           7z a -r dl.7z ./lenovo_z5_dump
            sudo ./transfer wet dl.7z
            sudo rm dl.7z      
