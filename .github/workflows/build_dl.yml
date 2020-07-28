@@ -38,6 +38,6 @@ jobs:
        
        - name: up
          run: |
-           7z a -r dl.7z ./lenovo_z5_dump
+           7z a -r dl.7z ./lenovo_z5_dump/vendor
            sudo ./transfer wet dl.7z
            sudo rm dl.7z      
