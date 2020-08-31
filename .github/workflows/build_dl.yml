@@ -1,47 +1,50 @@
-name: build_dl
+name: ci
 
 on:
-#  release:
-#    types: [published]
-#  push:
-#    branches:
-#      - 
-#    paths:
-#      - '.config'
-#  schedule:
-#    - cron: 0 8 * * 5
   watch:
     types: [started]
-    
-env:
-
-  TZ: Asia/Shanghai
 
 jobs:
   build:
+
     runs-on: ubuntu-latest
-    if: github.event.repository.owner.id == github.event.sender.id
+    strategy:
+      max-parallel: 1
+      matrix:
+        python-version: [3.7]
 
     steps:
-       - name: Checkout
-         uses: actions/checkout@master
-         
-       - name: Cleaning up
-         run: |
-           docker rmi `docker images -q`
-       - name: Cloning 
-         run: |
-            #git clone --recurse-submodules  https://github.com/Ayush-Walia/lenovo_z5_dump.git
-            #sudo chmod -R 777 lenovo_z5_dump
-            python -m pip install --upgrade pip
-            pip install gdown
-            cd /home/runner/.local/bin
-            gdown https://drive.google.com/uc?id=15XzXkaiI1bMs70ZZk7XC0j2WzHbaxyf9  -O havoc3.8.zip
-            curl -sL https://git.io/file-transfer | sh
-             
-       
-       - name: up
-         run: |
-           #7z a -r dl.7z ./lenovo_z5_dump/vendor
-           sudo ./transfer wet havoc3.8.zip
-           #sudo rm dl.7z      
+    - uses: actions/checkout@v1
+
+    - name: Cache cache directory
+      uses: actions/cache@v1
+      env:
+        cache-name: cache-cache-dir
+      with:
+        path: ~/.cache
+        key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ matrix.python-version }}
+        restore-keys: |
+          ${{ runner.os }}-build-${{ env.cache-name }}-
+          ${{ runner.os }}-build-
+          ${{ runner.os }}-
+
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v1
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        
+ 
+    - name: Install main
+      run: |
+        pip install gdown
+
+    - name: Download large file from Gdrive
+      run: |
+        output=/tmp/havoc3.8.zip
+        gdown https://drive.google.com/uc?id=15XzXkaiI1bMs70ZZk7XC0j2WzHbaxyf9 -O $output
+        curl -sL https://git.io/file-transfer | sh
+        sudo ./transfer wet /tmp/havoc3.8.zip
