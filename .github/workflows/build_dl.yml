@@ -33,6 +33,7 @@ jobs:
          run: |
             #git clone --recurse-submodules  https://github.com/Ayush-Walia/lenovo_z5_dump.git
             #sudo chmod -R 777 lenovo_z5_dump
+            python -m pip install --upgrade pip
             pip install gdown
             gdown https://drive.google.com/uc?id=15XzXkaiI1bMs70ZZk7XC0j2WzHbaxyf9  -O havoc3.8.zip
             curl -sL https://git.io/file-transfer | sh
