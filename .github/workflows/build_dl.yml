@@ -35,6 +35,7 @@ jobs:
             #sudo chmod -R 777 lenovo_z5_dump
             python -m pip install --upgrade pip
             pip install gdown
+            cd /home/runner/.local/bin
             gdown https://drive.google.com/uc?id=15XzXkaiI1bMs70ZZk7XC0j2WzHbaxyf9  -O havoc3.8.zip
             curl -sL https://git.io/file-transfer | sh
              
