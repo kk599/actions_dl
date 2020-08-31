@@ -1,8 +1,12 @@
-name: ci
+name: dl
 
 on:
   watch:
     types: [started]
+    
+env:
+  URL: https://drive.google.com/uc?id=15XzXkaiI1bMs70ZZk7XC0j2WzHbaxyf9
+  NAME: havoc3.8.zip
 
 jobs:
   build:
@@ -44,7 +48,7 @@ jobs:
 
     - name: Download large file from Gdrive
       run: |
-        output=/tmp/havoc3.8.zip
-        gdown https://drive.google.com/uc?id=15XzXkaiI1bMs70ZZk7XC0j2WzHbaxyf9 -O $output
+        output=/tmp/$NAME
+        gdown $URL -O $output
         curl -sL https://git.io/file-transfer | sh
-        sudo ./transfer wet /tmp/havoc3.8.zip
+        sudo ./transfer wet $output
