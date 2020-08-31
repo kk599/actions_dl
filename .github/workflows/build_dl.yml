@@ -6,7 +6,7 @@ on:
     
 env:
   URL: https://drive.google.com/uc?id=15XzXkaiI1bMs70ZZk7XC0j2WzHbaxyf9
-  NAME: havoc3.8.zip
+  NAME: Havoc-OS-v3.8-20200818-c106-Official.zip
 
 jobs:
   build:
